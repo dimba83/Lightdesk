@@ -1,0 +1,675 @@
+:root { --admin-grid-min: 180px; }
+
+/* ==========================================================================
+   1. GLOBAL & RESET STYLES
+   ========================================================================== */
+body {
+    padding: 80px 2rem 2rem;
+    background: #111;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+}
+
+.admin-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(0,0,0,0.95);
+    border-bottom: 1px solid #333;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    padding: 12px 2rem;
+    gap: 10px;
+}
+
+.header-logout-btn {
+    background-color: #d9534f;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+.header-logout-btn:hover { background-color: #c9302c; }
+
+h2 { 
+    margin-top: 0; 
+    font-family: 'Oswald'; 
+    text-transform: uppercase; 
+}
+
+/* ==========================================================================
+   2. LAYOUT & CONTAINERS
+   ========================================================================== */
+/* Main Dashboard Grid Layout */
+.admin-grid { 
+    display: flex; 
+    gap: 2rem; 
+    align-items: flex-start; 
+}
+
+.admin-col { 
+    flex: 1; 
+    min-width: 0; 
+}
+
+/* Content Panels */
+.panel { 
+    background: #222; 
+    padding: 2rem; 
+    margin-bottom: 2rem; 
+    border-radius: 8px; 
+    border: 1px solid #333; 
+}
+
+/* ==========================================================================
+   3. FORMS & BUTTONS
+   ========================================================================== */
+input, select, button { 
+    padding: 10px; 
+    margin: 5px 0; 
+    background: #000; 
+    color: #fff; 
+    border: 1px solid #444; 
+}
+
+button { 
+    cursor: pointer; 
+    background: #fff; 
+    color: #000; 
+    font-weight: bold; 
+}
+
+.btn-action { 
+    background: #333; 
+    color: #fff; 
+    border: 1px solid #555; 
+}
+
+.btn-action:hover { 
+    background: #444; 
+}
+
+.btn-danger { 
+    background: #d9534f; 
+    color: white; 
+    border: none; 
+}
+
+.btn-danger:hover { 
+    background: #c9302c; 
+}
+
+/* Color Filter Squares (Header) */
+.color-filter-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-left: 1px solid #444;
+    padding-left: 15px;
+    margin-left: 10px;
+}
+
+.color-sq {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.color-sq:hover { 
+    transform: scale(1.1); 
+}
+
+.color-sq.active { 
+    border-color: #fff; 
+    box-shadow: 0 0 5px rgba(255,255,255,0.5); 
+}
+
+.sq-none { 
+    background: #222; 
+    border: 1px solid #444; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 14px; 
+    color: #666;
+}
+
+/* Lightroom Colors */
+.sq-red { background-color: #d9534f; }
+.sq-yellow { background-color: #ffd700; }
+.sq-green { background-color: #5cb85c; }
+.sq-blue { background-color: #00aaff; }
+.sq-purple { background-color: #a040a0; }
+
+/* ==========================================================================
+   4. DATA TABLES (LOGS)
+   ========================================================================== */
+.log-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    font-size: 0.85rem; 
+    color: #ccc; 
+}
+
+.log-table th { 
+    text-align: left; 
+    border-bottom: 2px solid #444; 
+    padding: 8px; 
+    color: #fff; 
+    font-family: 'Oswald', sans-serif; 
+}
+
+.log-table td { 
+    border-bottom: 1px solid #333; 
+    padding: 8px; 
+}
+
+.timestamp { 
+    color: #888; 
+    font-size: 0.75rem; 
+}
+
+/* ==========================================================================
+   5. UPLOAD AREA
+   ========================================================================== */
+.upload-area { 
+    border: 2px dashed #555; 
+    padding: 2rem; 
+    text-align: center; 
+    margin-top: 1rem; 
+    cursor: pointer; 
+}
+
+.upload-area.drag-active { 
+    background: #333; 
+    border-color: #fff; 
+}
+
+/* ==========================================================================
+   6. GALLERY TOOLBAR & FILTERS
+   ========================================================================== */
+.gallery-toolbar {
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 1rem; 
+    align-items: center; 
+    justify-content: space-between;
+    background: #1a1a1a; 
+    padding: 1rem; 
+    border-radius: 4px; 
+    margin-bottom: 1rem; 
+    border: 1px solid #333;
+    position: sticky; 
+    top: 20px; 
+    z-index: 100; /* Sticky toolbar */
+}
+
+.toolbar-group { 
+    display: flex; 
+    gap: 10px; 
+    align-items: center; 
+    flex-wrap: wrap; 
+}
+
+/* Star Filter Widget */
+.filter-stars-container {
+    gap: 2px;
+    align-items: center;
+    margin-left: 5px;
+}
+
+.filter-stars-container span {
+    color: #444; /* Inactive color */
+    font-size: 2rem;
+    line-height: 2;
+    transition: color 0.2s;
+}
+
+.filter-stars-container span:hover,
+.filter-stars-container span.active {
+    color: #ffd700; /* Gold */
+}
+
+/* Color Filter Squares (Toolbar) */
+.color-filter-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-left: 1px solid #444;
+    padding-left: 15px;
+    margin-left: 10px;
+}
+
+.color-sq {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.1s, border-color 0.2s;
+}
+
+.color-sq:hover { 
+    transform: scale(1.1); 
+}
+
+.color-sq.active { 
+    border-color: #fff; 
+    box-shadow: 0 0 8px rgba(255,255,255,0.4); 
+}
+
+.sq-none { 
+    background: #222; 
+    border: 1px solid #444; 
+    color: #666;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   7. GALLERY GRID & CARD STYLES (UPDATED)
+   ========================================================================== */
+.admin-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--admin-grid-min), 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.admin-img-card {
+    position: relative;
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.1s;
+    cursor: pointer;
+    
+    /* NEW: Flex layout */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure cards in the same row match height */
+}
+
+.admin-img-card img {
+    width: 100%;
+    /* Remove fixed height: 150px if you want it responsive, 
+       OR keep it. Recommended: use flex-grow */
+    height: 150px; 
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    pointer-events: none;
+    flex: 1; /* Allows image to fill space if card grows */
+}
+
+.admin-img-card:hover { 
+    border-color: #666; 
+}
+
+/* Selected State (Gold Border) */
+.admin-img-card.selected {
+    border: 3px solid #ffd700 !important;
+    transform: scale(1.02);
+    z-index: 10;
+}
+
+/* Focus State (Blue Glow for Keyboard Nav) */
+.admin-img-card.last-active {
+    box-shadow: 0 0 0 4px #00aaff !important;
+    border-color: #00aaff !important;
+    z-index: 50;
+}
+
+
+/* Card UI Elements (Delete & Select) */
+.btn-delete-img {
+    position: absolute; 
+    top: 5px; 
+    right: 5px;
+    background: rgba(255, 0, 0, 0.8); 
+    color: white;
+    border: none; 
+    width: 25px; 
+    height: 25px;
+    border-radius: 50%; 
+    cursor: pointer;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-weight: bold; 
+    z-index: 20;
+}
+
+.btn-delete-img:hover { 
+    background: red; 
+}
+
+
+
+.admin-img-card.selected .select-handle {
+    display: flex;
+    background: #ffd700;
+    border-color: #ffd700;
+}
+
+.admin-img-card.selected .select-handle::after {
+    content: '✓'; 
+    color: #000; 
+    font-weight: bold; 
+    font-size: 12px;
+}
+
+/* ==========================================================================
+   SUBMITTED BANNER
+   ========================================================================== */
+.submitted-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: #1a3320;
+    border: 1px solid #5cb85c;
+    border-radius: 6px;
+    padding: 8px 14px;
+    margin: 0 0 15px 0;
+    font-family: 'Inter', sans-serif;
+}
+.submitted-banner .sub-label { color: #5cb85c; font-weight: bold; font-size: 0.9rem; }
+.submitted-banner .sub-date  { color: #aaa; font-size: 0.8rem; }
+
+/* ==========================================================================
+   8. CARD METADATA & BADGES
+   ========================================================================== */
+.card-meta {
+    padding: 8px;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    background: #111;
+}
+
+.meta-badges { 
+    display: flex; 
+    gap: 3px; 
+    flex-wrap: nowrap; 
+    overflow: hidden; 
+    align-items: center;
+}
+
+.badge { 
+    background: #333; 
+    padding: 2px 4px; 
+    border-radius: 4px; 
+    font-size: 0.8rem; 
+    color: #ffd700; 
+    display: inline-block; 
+    white-space: nowrap; /* Ensures text inside badge doesn't wrap */
+    flex-shrink: 0;      /* Prevents badge from squishing */
+}        
+
+.badge.flagged { 
+    color: red; 
+    background-color: #fff; 
+    font-weight: bold; 
+}
+
+.badge.scribbled { 
+    color: #fff; 
+    background-color: #555; 
+}
+
+.badge.multi-user { 
+    border: 1px solid #555; 
+    color: #fff; 
+}
+
+
+/* ==========================================================================
+   9. TOAST NOTIFICATIONS
+   ========================================================================== */
+#toast-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.toast {
+    background: rgba(0,0,0,0.9);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    border: 1px solid #444;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    animation: toastFade 3s forwards;
+    white-space: nowrap;
+}
+
+@keyframes toastFade {
+    0%   { opacity: 0; transform: translateY(10px); }
+    10%  { opacity: 1; transform: translateY(0); }
+    80%  { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* ==========================================================================
+   10. EDITOR MODAL & CANVAS
+   ========================================================================== */
+#editor-modal { 
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: #000; 
+    z-index: 5000; 
+    flex-direction: row; 
+}
+
+.editor-canvas-area { 
+    flex: 1; 
+    position: relative; 
+    background: #0a0a0a; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.editor-sidebar { 
+    width: 350px; 
+    background: #1a1a1a; 
+    padding: 2rem; 
+    border-left: 1px solid #333; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1.5rem; 
+    overflow-y: auto; 
+}
+
+/* ==========================================================================
+   11. EDITOR NAVIGATION BUTTONS (ADMIN)
+   ========================================================================== */
+
+/* Shared styles for both admin buttons */
+.editor-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.3); /* Transparent dark background */
+    color: #fff;
+    border: none;
+    font-size: 3rem; /* Big arrow size */
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 100; /* Force it on top of the canvas */
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+}
+
+/* Hover effect */
+.editor-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    opacity: 1;
+}
+
+/* Specific positioning using the classes from admin.php */
+.nav-prev {
+    left: 10px;  /* Sticks to the left edge */
+}
+
+.nav-next {
+    right: 10px; /* Sticks to the right edge */
+}
+
+/* Optional: Hide buttons if they are disabled via JS */
+.editor-nav-btn[style*="display: none"] {
+    display: none !important;
+}
+
+/* ==========================================================================
+   12. MULTI-COLOR FILENAME LABELS (LIGHTROOM STYLE)
+   ========================================================================== */
+.file-name-label {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 28px;
+    padding: 3px 8px;
+    margin-top: -1px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.6);
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 0 0 4px 4px;
+}
+
+/* Filename text truncation */
+.file-name-text {
+    position: relative;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+/* Ensure the color strips fill the background entirely */
+.color-strip {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    z-index: -1; 
+}
+
+/* Palette mapping - These override the Section 4 solid colors */
+.bg-red { background-color: #c96a67 !important; }
+.bg-yellow { background-color: #e0c855 !important; }
+.bg-green { background-color: #72a872 !important; }
+.bg-blue { background-color: #5b9bc4 !important; }
+
+/* ==========================================================================
+   LIGHT THEME
+   ========================================================================== */
+html[data-theme="light"] body { background: #efefef !important; color: #111 !important; }
+
+html[data-theme="light"] .file-name-text { color: #222; text-shadow: none; }
+html[data-theme="light"] .file-name-label:has(.color-strip) .file-name-text {
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.95), 0 0 10px rgba(0,0,0,0.8);
+}
+
+/* Admin header */
+html[data-theme="light"] .admin-header { background: rgba(246,246,246,0.97); border-bottom-color: #ddd; }
+html[data-theme="light"] .admin-header div[style*="Oswald"] { color: #111; }
+
+/* Panels */
+html[data-theme="light"] .panel { background: #fff; border-color: #e0e0e0; }
+html[data-theme="light"] h2 { color: #111; }
+
+/* Inputs / selects / buttons */
+html[data-theme="light"] input,
+html[data-theme="light"] select { background: #f8f8f8; color: #111; border-color: #ddd; }
+html[data-theme="light"] button { background: #e8e8e8; color: #111; border-color: #ddd; }
+html[data-theme="light"] .btn-action { background: #e8e8e8; color: #333; border-color: #ccc; }
+html[data-theme="light"] .btn-action:hover { background: #ddd; }
+html[data-theme="light"] .header-logout-btn { background-color: #c0392b; color: #fff !important; }
+
+/* Gallery toolbar */
+html[data-theme="light"] .gallery-toolbar { background: #ebebeb; border-color: #ddd; }
+html[data-theme="light"] .gallery-toolbar input,
+html[data-theme="light"] .gallery-toolbar select { background: #fff; color: #111; border-color: #ddd; }
+html[data-theme="light"] .filter-stars-container span { color: #ccc; }
+html[data-theme="light"] .filter-stars-container span:hover,
+html[data-theme="light"] .filter-stars-container span.active { color: #b8900a; }
+
+/* Gallery cards */
+html[data-theme="light"] .admin-img-card { background: #fff; border-color: #e4e4e4; box-shadow: 0 2px 8px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06); }
+html[data-theme="light"] .admin-img-card:hover { border-color: #bbb; box-shadow: 0 4px 16px rgba(0,0,0,0.15), 0 1px 4px rgba(0,0,0,0.08); }
+html[data-theme="light"] .admin-img-card.selected { border-color: #b8900a !important; }
+html[data-theme="light"] .admin-img-card.last-active { box-shadow: 0 0 0 4px #0077cc !important; border-color: #0077cc !important; }
+html[data-theme="light"] .card-meta { background: #f5f5f5; }
+html[data-theme="light"] .badge { background: #e0e0e0; color: #555; }
+html[data-theme="light"] .badge.flagged { background: #fff; color: #d9534f; }
+
+/* Log / stats table */
+html[data-theme="light"] .log-table { color: #444; }
+html[data-theme="light"] .log-table th { color: #111; border-bottom-color: #ddd; }
+html[data-theme="light"] .log-table td { border-bottom-color: #eeeeee; }
+html[data-theme="light"] .timestamp { color: #888; }
+
+/* Upload area */
+html[data-theme="light"] .upload-area { border-color: #ccc; color: #888; }
+html[data-theme="light"] .upload-area.drag-active { background: #ebebeb; border-color: #666; }
+
+/* Submitted banner */
+html[data-theme="light"] .submitted-banner { background: #f0fff4; }
+
+/* Editor */
+html[data-theme="light"] #editor-modal { background: #e0e0e0; }
+html[data-theme="light"] .editor-canvas-area { background: #d4d4d4; }
+html[data-theme="light"] .editor-sidebar { background: #f5f5f5; border-left-color: #ddd; color: #111; }
+html[data-theme="light"] .editor-sidebar h3 { color: #111; }
+html[data-theme="light"] #user-details-list { color: #333; }
+html[data-theme="light"] .editor-filename-overlay { background: rgba(240,240,240,0.92); color: #333; border-color: #bbb; }
+html[data-theme="light"] .editor-sidebar button[onclick*="closeEditor"] { background: #111; color: #fff; }
+
+/* Modals */
+html[data-theme="light"] #pass-modal { background: rgba(0,0,0,0.4); }
+html[data-theme="light"] #pass-modal > div { background: #fff; border-color: #ddd; }
+html[data-theme="light"] #pass-modal h2 { color: #111 !important; }
+html[data-theme="light"] #pass-modal input { background: #f8f8f8; border-color: #ddd; color: #111; }
+html[data-theme="light"] #pass-modal button[onclick*="closePassModal"] { border-color: #ddd; color: #777; }
+html[data-theme="light"] #help-modal { background: rgba(0,0,0,0.4); }
+html[data-theme="light"] #help-modal > div { background: #fff; color: #333; }
+html[data-theme="light"] #error-modal { background: rgba(0,0,0,0.4); }
+html[data-theme="light"] #error-modal > div { background: #fff; }
+html[data-theme="light"] #error-modal p { color: #444; }

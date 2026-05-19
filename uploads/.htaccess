@@ -1,0 +1,16 @@
+# 1. Disable Directory Browsing
+# Prevents visitors from seeing a list of all files/folders
+Options -Indexes
+
+# 2. Security: Block Script Execution
+# Prevents malicious PHP files from running if uploaded
+<FilesMatch "\.(php|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# 3. Security: Prevent access to hidden files (like .htaccess itself)
+<FilesMatch "^\.">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
