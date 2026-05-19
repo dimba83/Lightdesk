@@ -1,0 +1,13 @@
+# Never commit real credentials
+config.php
+
+# Client uploads are private — never commit them
+uploads/*/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Backups & temp files
+*.zip
+clearcache.php

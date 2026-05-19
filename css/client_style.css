@@ -1,0 +1,1181 @@
+:root { --grid-min: 250px; }
+
+/* ==========================================================================
+   1. GLOBAL & RESET STYLES
+   ========================================================================== */
+body {
+    padding-top: 115px;
+    background: #111;
+    color: #fff;
+}
+
+/* Protection: Prevent dragging/saving images directly */
+img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Mouse clicks pass through to card div */
+}
+
+/* ==========================================================================
+   2. HEADER & NAVIGATION
+   ========================================================================== */
+.selection-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(10,10,10,0.97);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 24px;
+    border-bottom: 1px solid #1e1e1e;
+    gap: 10px;
+}
+
+/* Row 1: title/user on left, actions on right */
+.header-main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #1e1e1e;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+}
+
+.header-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.header-sep {
+    display: inline-block;
+    width: 1px;
+    height: 14px;
+    background: #2a2a2a;
+    flex-shrink: 0;
+}
+
+.header-user-info {
+    font-size: 0.8rem;
+    color: #444;
+    font-family: 'Inter', sans-serif;
+}
+
+.header-username {
+    color: #aaa;
+    font-weight: bold;
+    margin-left: 3px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    padding-left: 12px;
+}
+
+.header-ghost-btn {
+    background: transparent;
+    border: none;
+    color: #444;
+    cursor: pointer;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    line-height: 1;
+}
+.header-ghost-btn:hover { color: #777; }
+
+/* Row 2: filter tools */
+.header-tools {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.change-user-link {
+    color: #d9534f;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 0.8rem;
+}
+
+.sort-select {
+    background: #222;
+    color: #fff;
+    border: 1px solid #333;
+    padding: 0.4rem 0.5rem;
+}
+
+/* ==========================================================================
+   LANGUAGE SWITCHER
+   ========================================================================== */
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.lang-btn {
+    cursor: pointer;
+    opacity: 0.3; /* Standardmäßig ausgegraut */
+    transition: opacity 0.2s, transform 0.2s;
+    filter: grayscale(100%);
+    line-height: 1;
+}
+
+.lang-btn:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+
+.lang-btn.active {
+    opacity: 1;
+    filter: grayscale(0%);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+/* ==========================================================================
+   3. FILTERS & TOOLBAR WIDGETS
+   ========================================================================== */
+/* Checkbox Group */
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-right: 15px;
+	margin-left: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+}
+
+.filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.2s;
+}
+
+.filter-group label:hover { 
+    color: #fff; 
+}
+
+.filter-group input[type="checkbox"] {
+    accent-color: #ffd700; 
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Star Filter (Header) */
+.filter-stars-container {
+    gap: 2px;
+    align-items: center;
+    margin-left: 5px;
+}
+
+.filter-stars-container span {
+    color: #444;
+    font-size: 1rem;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.filter-stars-container span:hover,
+.filter-stars-container span.active {
+    color: #ffd700; 
+}
+
+/* Color Filter Squares (Header) */
+.color-filter-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-left: 1px solid #444;
+    padding-left: 15px;
+    margin-left: 10px;
+}
+
+.color-sq {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.color-sq:hover { 
+    transform: scale(1.1); 
+}
+
+.color-sq.active { 
+    border-color: #fff; 
+    box-shadow: 0 0 5px rgba(255,255,255,0.5); 
+}
+
+.sq-none { 
+    background: #222; 
+    border: 1px solid #444; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 14px; 
+    color: #666;
+}
+
+/* Lightroom Colors */
+.sq-red { background-color: #d9534f; }
+.sq-yellow { background-color: #ffd700; }
+.sq-green { background-color: #5cb85c; }
+.sq-blue { background-color: #00aaff; }
+.sq-purple { background-color: #a040a0; }
+
+/* ==========================================================================
+   4. GRID & IMAGE CARDS (UPDATED)
+   ========================================================================== */
+.selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--grid-min), 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.sel-item-container { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px; 
+}
+
+.sel-item { 
+    position: relative; 
+    cursor: pointer; 
+    transition: 0.2s; 
+    overflow: hidden; 
+    aspect-ratio: 3/2; /* Keeps the card shape */
+    background: #000; 
+    border-radius: 4px; 
+    border: 1px solid #333;
+    
+    /* NEW: Flex layout to stack Image + Label vertically */
+    display: flex;
+    flex-direction: column;
+}
+
+.sel-item:hover { 
+    transform: scale(1.02); 
+    z-index: 10; 
+    border-color: #666; 
+}
+
+.sel-item img { 
+    width: 100%; 
+    height: auto;      /* Let flex determine height */
+    flex: 1;           /* Takes all available space not used by label */
+    object-fit: contain; 
+    display: block; 
+    min-height: 0;     /* Critical fix for flex containers */
+}
+
+/* Selection States */
+.sel-item.selected {
+    border: 3px solid #ffd700; 
+}
+
+.sel-item.last-active {
+    box-shadow: 0 0 0 4px #00aaff !important; 
+    border-color: #00aaff !important;
+    z-index: 100; 
+}
+
+
+/* ==========================================================================
+   5. OVERLAYS & BADGES (ON CARD)
+   ========================================================================== */
+/* Color Picker Overlay (Hover) */
+.color-picker-overlay {
+    position: absolute; 
+    top: 10px; 
+    right: 10px; 
+    display: flex; 
+    gap: 4px; 
+    z-index: 25;
+    background: rgba(0,0,0,0.6); 
+    padding: 5px 8px; 
+    border-radius: 20px;
+    opacity: 0; 
+    transition: opacity 0.2s ease;
+    pointer-events: auto;
+}
+
+.sel-item:hover .color-picker-overlay { 
+    opacity: 1; 
+}
+
+.color-dot {
+    width: 14px; 
+    height: 14px; 
+    border-radius: 50%; 
+    border: 1px solid rgba(255,255,255,0.6); 
+    cursor: pointer;
+    transition: transform 0.1s, border-color 0.1s;
+}
+
+.color-dot:hover { 
+    transform: scale(1.2); 
+    border-color: #fff; 
+}
+
+/* Specific Dot Colors */
+.dot-red { background-color: #d9534f; }
+.dot-yellow { background-color: #ffd700; }
+.dot-green { background-color: #5cb85c; }
+.dot-blue { background-color: #00aaff; }
+
+.dot-none { 
+    background-color: transparent; 
+    border: 1px solid #aaa; 
+    color: #fff; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 10px; 
+    line-height: 1;
+}
+
+.dot-none:hover { 
+    border-color: #d9534f; 
+    color: #d9534f; 
+}
+
+/* Status Badges (Bottom Right) */
+.status-badges { 
+    position: absolute; 
+    bottom: 35px; 
+    right: 10px; 
+    display: flex; 
+    gap: 5px; 
+    z-index: 3; 
+}
+
+.badge { 
+    background: rgba(0,0,0,0.85); 
+    padding: 5px 8px; 
+    border-radius: 4px; 
+    font-size: 1rem; 
+    color: #ffd700; 
+    font-weight: bold; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.badge.flagged { color: #d9534f; background: #fff; }
+.badge.multi-user { border: 1px solid #555; color: #fff; font-weight: normal; }
+.badge.scribbled { border: 1px solid #777; color: #fff; }
+
+/* ==========================================================================
+   6. MODALS: LOGIN & HELP
+   ========================================================================== */
+/* Login Modal */
+#login-modal { 
+    display: flex; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.95); 
+    z-index: 9999; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.login-card { 
+    background: #222; 
+    padding: 3rem; 
+    max-width: 400px; 
+    width: 100%; 
+    text-align: center; 
+    border: 1px solid #444; 
+}
+
+.name-btn { 
+    display: block; 
+    width: 100%; 
+    padding: 10px; 
+    margin: 5px 0; 
+    background: #333; 
+    border: 1px solid #555; 
+    color: #fff; 
+    cursor: pointer; 
+}
+
+.name-btn:hover { 
+    background: #444; 
+}
+
+/* Help Modal */
+#help-modal {
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.85);
+    z-index: 9999; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.help-modal-content {
+    background: #1a1a1a; 
+    padding: 2rem; 
+    border-radius: 8px;
+    border: 1px solid #333; 
+    width: 90%; 
+    max-width: 700px;
+    max-height: 85vh; 
+    overflow-y: auto; 
+    color: #ddd;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.help-modal-content h2 { 
+    margin-top: 0; 
+    color: #fff; 
+    border-bottom: 1px solid #333; 
+    padding-bottom: 10px; 
+    font-family: 'Oswald', sans-serif;
+}
+
+.help-modal-content h3 { 
+    color: #ffd700; 
+    margin-top: 1.5rem; 
+    font-size: 1.1rem; 
+    text-transform: uppercase; 
+    font-family: 'Oswald', sans-serif;
+}
+
+.help-section { 
+    margin-bottom: 2rem; 
+}
+
+.help-key { 
+    background: #333; 
+    border: 1px solid #555; 
+    border-radius: 4px; 
+    padding: 2px 6px; 
+    font-family: monospace; 
+    color: #fff; 
+    font-weight: bold;
+}
+
+.help-btn {
+    background: #333; 
+    color: #fff; 
+    border: 1px solid #555;
+    padding: 0.5rem 1rem; 
+    border-radius: 4px; 
+    cursor: pointer;
+    font-weight: bold; 
+    transition: 0.2s; 
+    height: 36px;
+    
+    /* ADD THIS: Prevents text inside button from breaking */
+    white-space: nowrap; 
+    flex-shrink: 0; /* Prevents button from getting squashed */
+}
+
+.help-btn:hover { 
+    background: #555; 
+    border-color: #777; 
+}
+
+.help-close-btn {
+    background: #d9534f; 
+    color: #fff; 
+    border: none;
+    padding: 10px 20px; 
+    float: right; 
+    cursor: pointer;
+    font-weight: bold; 
+    border-radius: 4px; 
+    margin-top: 20px;
+}
+
+.help-close-btn:hover { 
+    background: #c9302c; 
+}
+
+hr.help-divider { 
+    border: 0; 
+    border-top: 1px dashed #444; 
+    margin: 2rem 0; 
+}
+
+/* ==========================================================================
+   7. EDITOR & CANVAS
+   ========================================================================== */
+#editor-modal { 
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: #000; 
+    z-index: 5000; 
+    flex-direction: row; 
+}
+
+#editor-modal.active { 
+    display: flex; 
+}
+
+.editor-canvas-area { 
+    flex: 1; 
+    position: relative; 
+    background: #0a0a0a; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.editor-sidebar { 
+    width: 350px; 
+    background: #1a1a1a; 
+    padding: 2rem; 
+    border-left: 1px solid #333; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 1.5rem; 
+    overflow-y: auto; 
+}
+
+.editor-filename-overlay {
+    position: absolute; 
+    bottom: 20px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    background: rgba(40, 40, 40, 0.9); 
+    color: #ddd; 
+    padding: 8px 20px;
+    border-radius: 50px; 
+    font-size: 0.9rem; 
+    pointer-events: none;
+    border: 1px solid #555; 
+    font-family: 'Inter', sans-serif; 
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.editor-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5); /* Etwas dunkler für Kontrast */
+    color: #fff;
+    border: none;
+    font-size: 3rem;
+    padding: 20px 15px;
+    cursor: pointer;
+    z-index: 100; /* Muss über dem Modal liegen */
+    transition: background 0.2s;
+    border-radius: 4px;
+}
+
+.editor-nav-btn:hover {
+    background: rgba(255, 215, 0, 0.2); /* Goldener Schimmer beim Hover */
+    color: #ffd700;
+}
+
+.nav-prev { left: 10px; }
+.nav-next { right: 10px; }
+
+/* Editor Tools */
+.rating-stars { 
+    font-size: 2rem; 
+    color: #444; 
+    cursor: pointer; 
+}
+
+.rating-stars span:hover, 
+.rating-stars span.active { 
+    color: #ffd700; 
+}
+
+.flag-btn { 
+    background: #333; 
+    border: 1px solid #555; 
+    color: #fff; 
+    padding: 10px; 
+    width: 100%; 
+    cursor: pointer; 
+    text-transform: uppercase; 
+    transition: 0.2s; 
+}
+
+.flag-btn.active { 
+    background: #d9534f; 
+    border-color: #d9534f; 
+    font-weight: bold;
+}
+
+textarea { 
+    width: 100%; 
+    background: #222; 
+    color: #fff; 
+    border: 1px solid #444; 
+    padding: 10px; 
+    margin-bottom: 5px;
+}
+
+/* Ensure the container for labels has a specific class to target */
+.editor-color-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+/* Default state for color squares in the editor sidebar */
+.editor-sidebar .color-sq {
+    transition: all 0.2s ease;
+    filter: saturate(0.5) opacity(0.5); /* Desaturated by default */
+    border: 2px solid transparent;
+}
+
+/* Active state: Full saturation and a highlight border */
+.editor-sidebar .color-sq.is-active {
+    filter: saturate(1) opacity(1);
+    border-color: #fff;
+    transform: scale(1.1);
+}
+
+/* Sidebar specific selector to ensure we don't mess up the grid */
+#editor-label-selector .color-sq {
+    transition: filter 0.3s ease, transform 0.2s ease, border-color 0.2s ease;
+    filter: saturate(0.5) brightness(0.7); /* Desaturated state */
+    border: 2px solid transparent;
+}
+
+#editor-label-selector .color-sq.is-active {
+    filter: saturate(1) brightness(1); /* Full color */
+    transform: scale(1.1);
+    border-color: #fff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* The Pulse Animation */
+@keyframes pulse-pop {
+    0% { transform: scale(1.1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1.1); }
+}
+
+.pulse-effect {
+    animation: pulse-pop 0.2s ease-out;
+}
+
+
+/* ==========================================================================
+   8. COMMENTS & CHAT
+   ========================================================================== */
+.comment-item { 
+    background: #222; 
+    padding: 10px; 
+    border-radius: 4px; 
+    margin-bottom: 8px; 
+    font-size: 0.85rem; 
+}
+
+.comment-author { 
+    color: #888; 
+    font-weight: bold; 
+    font-size: 0.75rem; 
+    margin-bottom: 2px; 
+    text-transform: uppercase; 
+}
+
+/* ==========================================================================
+   9. SCRIBBLE TOOLS
+   ========================================================================== */
+.scribble-group { 
+    display: flex; 
+    gap: 10px; 
+    margin-top: 5px; 
+}
+
+.scribble-btn {
+    flex: 1; 
+    background: #333; 
+    border: 1px solid #555; 
+    color: #ccc;
+    padding: 8px 0; 
+    border-radius: 6px; 
+    cursor: pointer;
+    transition: all 0.2s ease; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    gap: 4px;
+}
+
+.scribble-icon { 
+    font-size: 1.4rem; 
+    line-height: 1; 
+}
+
+.scribble-label { 
+    font-size: 0.65rem; 
+    text-transform: uppercase; 
+    font-family: 'Inter', sans-serif; 
+    letter-spacing: 1px; 
+    font-weight: bold; 
+}
+
+.scribble-btn:hover { 
+    background: #444; 
+    color: #fff; 
+    transform: translateY(-2px); 
+}
+
+.scribble-btn.active { 
+    background: #ffd700; 
+    color: #000; 
+    border-color: #ffd700; 
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); 
+}
+
+.scribble-btn.danger { 
+    border-color: #d9534f; 
+    color: #d9534f; 
+}
+
+.scribble-btn.danger:hover { 
+    background: #d9534f; 
+    color: #fff; 
+}
+
+/* ==========================================================================
+   10. TOAST NOTIFICATIONS
+   ========================================================================== */
+#toast-container {
+    position: fixed; 
+    bottom: 30px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    z-index: 9999; 
+    pointer-events: none;
+}
+
+.toast {
+    background: rgba(0, 0, 0, 0.85); 
+    color: #fff; 
+    padding: 12px 24px;
+    border-radius: 50px; 
+    font-family: 'Inter', sans-serif; 
+    font-size: 0.9rem;
+    border: 1px solid #444; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    margin-top: 10px; 
+    animation: toastFade 2.5s forwards; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px;
+}
+
+@keyframes toastFade {
+    0% { opacity: 0; transform: translateY(20px); }
+    15% { opacity: 1; transform: translateY(0); }
+    85% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
+
+
+/* ==========================================================================
+   11. SHORTCUT LEGEND (SIDEBAR)
+   ========================================================================== */
+.shortcut-legend-box {
+    margin-top: 15px;
+    background: #111; /* Darker than sidebar */
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.shortcut-legend-box h4 {
+    margin: 0 0 8px 0;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #666;
+    letter-spacing: 1px;
+    font-family: 'Inter', sans-serif;
+}
+
+.legend-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 6px 10px;
+    font-size: 0.75rem;
+    color: #aaa;
+    font-family: 'Inter', sans-serif;
+}
+
+.legend-grid div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.key {
+    background: #333;
+    border: 1px solid #444;
+    color: #ddd;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: monospace;
+    font-size: 0.7rem;
+    min-width: 18px;
+    text-align: center;
+    display: inline-block;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.5);
+}
+
+/* ==========================================================================
+   12. MULTI-COLOR FILENAME LABELS (LIGHTROOM STYLE)
+   ========================================================================== */
+.file-name-label {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 28px;
+    padding: 3px 8px;
+    margin-top: -1px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.6);
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 0 0 4px 4px;
+}
+
+/* Filename text truncation */
+.file-name-text {
+    position: relative;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+/* Ensure the color strips fill the background entirely */
+.color-strip {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    z-index: -1; 
+}
+
+/* Palette mapping - These override the Section 4 solid colors */
+.bg-red { background-color: #c96a67 !important; }
+.bg-yellow { background-color: #e0c855 !important; }
+.bg-green { background-color: #72a872 !important; }
+.bg-blue { background-color: #5b9bc4 !important; }
+
+/* New Header Logout Button */
+.selection-counter {
+    background: #111;
+    border: 1px solid #333;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #555;
+    font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+    transition: color 0.3s, border-color 0.3s;
+}
+.selection-counter.has-selection { color: #ffd700; border-color: #ffd700; }
+.selection-counter.quota-met  { color: #5cb85c; border-color: #5cb85c; }
+.selection-counter.quota-over { color: #d9534f; border-color: #d9534f; }
+
+.submit-btn {
+    background: #5cb85c;
+    color: #000;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+.submit-btn:hover { background: #4cae4c; }
+.submit-btn.submitted {
+    background: transparent;
+    border: 1px solid #2a4a2a;
+    color: #4a8a4a;
+    cursor: default;
+    font-weight: normal;
+}
+.submit-btn.submitted:hover { background: transparent; }
+
+.header-logout-btn {
+    background-color: #c0392b;
+    color: #fff !important;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    font-family: 'Inter', sans-serif;
+    white-space: nowrap;
+}
+.header-logout-btn:hover { background-color: #a93226; }
+
+/* ==========================================================================
+   1. TABLET & DESKTOP HEADER LAYOUT (< 1660px)
+   Moves filters to the second row, keeps Title/User/Logout on the LEFT
+   ========================================================================== */
+@media (max-width: 1440px) {
+    body {
+        padding-top: 130px;
+    }
+
+    .selection-header {
+        height: auto;           /* Allow height to grow */
+        align-items: flex-start; /* IMPORTANT: Aligns everything to the LEFT */
+    }
+
+    .header-tools {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start; /* Align filters to the LEFT */
+        flex-wrap: wrap !important;
+        gap: 15px !important;       
+    }
+
+    .header-tools .filter-group, 
+    .header-tools .color-filter-group {
+        border-left: none !important;
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+    }
+}
+
+/* ==========================================================================
+   2. MOBILE PHONE ADJUSTMENTS (< 768px)
+   Stacks the Editor and shrinks fonts
+   ========================================================================== */
+@media (max-width: 768px) {
+    
+    /* Tighter gaps for small screens */
+    .header-tools {
+        gap: 8px !important; 
+    }
+    
+    /* Smaller Search Bar */
+    #client-search {
+        width: 100% !important; 
+        max-width: 200px;
+    }
+    
+    /* Smaller Title */
+    .selection-header div[style*="Oswald"] {
+        font-size: 1.2rem !important; 
+    }
+
+    /* --- EDITOR STACKING (Keep this for phones only) --- */
+    #editor-modal {
+        flex-direction: column !important; /* Stack Image on Top, Sidebar on Bottom */
+    }
+
+    .editor-canvas-area {
+        width: 100% !important;
+        height: 40vh !important; 
+        flex: none !important;   
+        border-bottom: 1px solid #333;
+        padding: 10px !important;
+    }
+
+    .editor-sidebar {
+        width: 100% !important;
+        flex: 1 !important;      
+        border-left: none !important;
+        border-top: 1px solid #333;
+        padding: 15px !important;
+        padding-bottom: 80px !important;
+    }
+
+    .editor-nav-btn {
+        font-size: 2rem !important;
+        padding: 10px !important;
+        background: rgba(0,0,0,0.3) !important;
+    }
+	
+	.nav-prev { left: 10px; }
+    .nav-next { right: 10px; }
+}
+    
+    .editor-filename-overlay {
+        bottom: 10px !important;
+        font-size: 0.75rem !important;
+        padding: 4px 12px !important;
+    }
+}
+
+.gallery-count {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    color: #444;
+    padding: 8px 0 24px;
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   LIGHT THEME
+   ========================================================================== */
+html[data-theme="light"] { background: #efefef; }
+html[data-theme="light"] body { background: #efefef !important; color: #111 !important; }
+html[data-theme="light"] .gallery-count { color: #888; }
+
+/* Filename text: dark by default in light theme */
+html[data-theme="light"] .file-name-text { color: #222; text-shadow: none; }
+
+/* On color-strip cards: white text + strong shadow for contrast on any color */
+html[data-theme="light"] .file-name-label:has(.color-strip) .file-name-text {
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.95), 0 0 10px rgba(0,0,0,0.8);
+}
+
+/* Header */
+html[data-theme="light"] .selection-header { background: rgba(246,246,246,0.97); border-bottom-color: #ddd; }
+html[data-theme="light"] .header-main { border-bottom-color: #e5e5e5; }
+html[data-theme="light"] .header-sep { background: #ddd; }
+html[data-theme="light"] .header-title { color: #111; }
+html[data-theme="light"] .header-user-info { color: #aaa; }
+html[data-theme="light"] .header-username { color: #333; }
+html[data-theme="light"] .header-ghost-btn { color: #666; }
+html[data-theme="light"] .header-ghost-btn:hover { color: #111; }
+html[data-theme="light"] .lang-switcher { border-left-color: #e0e0e0 !important; }
+html[data-theme="light"] .lang-btn { filter: none; opacity: 0.4; }
+html[data-theme="light"] .lang-btn.active { filter: none; opacity: 1; text-shadow: none; }
+
+/* Counter */
+html[data-theme="light"] .selection-counter { background: #f0f0f0; border-color: #ddd; color: #aaa; }
+html[data-theme="light"] .selection-counter.has-selection { color: #b8900a; border-color: #b8900a; }
+html[data-theme="light"] .selection-counter.quota-met  { color: #3a7a3a; border-color: #3a7a3a; }
+html[data-theme="light"] .selection-counter.quota-over { color: #cc3333; border-color: #cc3333; }
+
+/* Filter tools */
+html[data-theme="light"] .header-tools input,
+html[data-theme="light"] .header-tools select {
+    background: #fff !important;
+    color: #111 !important;
+    border-color: #ddd !important;
+}
+html[data-theme="light"] .sort-select { background: #fff !important; color: #111 !important; border-color: #ddd !important; }
+html[data-theme="light"] .filter-group label { color: #555; }
+html[data-theme="light"] .filter-group label:hover { color: #111; }
+html[data-theme="light"] .filter-stars-container span { color: #ccc; }
+html[data-theme="light"] .filter-stars-container span:hover,
+html[data-theme="light"] .filter-stars-container span.active { color: #b8900a; }
+html[data-theme="light"] .color-filter-group { border-left-color: #ddd; }
+html[data-theme="light"] .help-btn { background: #e8e8e8; color: #333; border-color: #ccc; }
+html[data-theme="light"] .help-btn:hover { background: #ddd; }
+
+/* Gallery */
+html[data-theme="light"] .selection-grid { background: transparent; }
+html[data-theme="light"] .sel-item { background: #fff; border-color: #e4e4e4; box-shadow: 0 2px 8px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06); }
+html[data-theme="light"] .sel-item:hover { border-color: #bbb; box-shadow: 0 4px 16px rgba(0,0,0,0.15), 0 1px 4px rgba(0,0,0,0.08); }
+html[data-theme="light"] .sel-item.selected { border-color: #b8900a !important; }
+html[data-theme="light"] .sel-item.last-active { box-shadow: 0 0 0 3px #0077cc !important; border-color: #0077cc !important; }
+html[data-theme="light"] .badge { background: rgba(0,0,0,0.55); }
+html[data-theme="light"] .color-picker-overlay { background: rgba(255,255,255,0.7); }
+
+/* Editor */
+html[data-theme="light"] #editor-modal { background: #e0e0e0; }
+html[data-theme="light"] .editor-canvas-area { background: #d4d4d4; }
+html[data-theme="light"] .editor-sidebar { background: #f5f5f5; border-left-color: #ddd; color: #111; }
+html[data-theme="light"] .editor-sidebar h3 { color: #111; }
+html[data-theme="light"] .editor-filename-overlay { background: rgba(240,240,240,0.92); color: #333; border-color: #bbb; }
+html[data-theme="light"] .rating-stars { color: #ccc; }
+html[data-theme="light"] .rating-stars span:hover,
+html[data-theme="light"] .rating-stars span.active { color: #b8900a; }
+html[data-theme="light"] .flag-btn { background: #e8e8e8; border-color: #ccc; color: #333; }
+html[data-theme="light"] .flag-btn.active { background: #d9534f; border-color: #d9534f; color: #fff; }
+html[data-theme="light"] textarea { background: #fff; border-color: #ddd; color: #111; }
+html[data-theme="light"] .comment-item { background: #ebebeb; }
+html[data-theme="light"] .comment-author { color: #888; }
+html[data-theme="light"] .scribble-btn { background: #e8e8e8; border-color: #ccc; color: #444; }
+html[data-theme="light"] .scribble-btn:hover { background: #ddd; color: #111; }
+html[data-theme="light"] .shortcut-legend-box { background: #ebebeb; border-color: #ddd; }
+html[data-theme="light"] .key { background: #e0e0e0; border-color: #ccc; color: #333; box-shadow: none; }
+html[data-theme="light"] .legend-grid { color: #555; }
+html[data-theme="light"] #download-btn { background: #e8e8e8; border-color: #ccc; color: #555; }
+
+/* Help modal */
+html[data-theme="light"] #help-modal { background: rgba(0,0,0,0.45); }
+html[data-theme="light"] .help-modal-content { background: #fff; border-color: #ddd; color: #333; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+html[data-theme="light"] .help-modal-content h2 { color: #111; border-bottom-color: #eee; }
+html[data-theme="light"] .help-modal-content h3 { color: #b8900a; }
+html[data-theme="light"] .help-key { background: #e8e8e8; border-color: #ccc; color: #333; }
+html[data-theme="light"] hr.help-divider { border-top-color: #eee; }
+
+/* Pass modal */
+html[data-theme="light"] #pass-modal { background: rgba(0,0,0,0.4); }
+html[data-theme="light"] #pass-modal > div { background: #fff; border-color: #ddd; }
+html[data-theme="light"] #pass-modal h2 { color: #111 !important; }
+html[data-theme="light"] #pass-modal input { background: #f8f8f8; border-color: #ddd; color: #111; }
+html[data-theme="light"] #pass-modal button[onclick*="closePassModal"] { border-color: #ddd; color: #777; }
+
+/* Login modal */
+html[data-theme="light"] #login-modal { background: rgba(240,240,240,0.98); }
+html[data-theme="light"] .login-card { background: #fff; border-color: #ddd; }
+html[data-theme="light"] .login-card h2 { color: #111; }
+html[data-theme="light"] .login-card input { background: #f8f8f8; border-color: #ddd; color: #111; }
+html[data-theme="light"] .name-btn { background: #f0f0f0; border-color: #ddd; color: #333; }
+html[data-theme="light"] .name-btn:hover { background: #e8e8e8; }
