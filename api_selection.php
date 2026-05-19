@@ -455,7 +455,15 @@ if ($action === 'upload') {
     if (!file_exists($targetDir)) mkdir($targetDir, 0777, true);
     
     $fileName = preg_replace("/[^a-zA-Z0-9\._-]/", "_", basename($_FILES["image"]["name"]));
-    
+
+    // Validate it is actually an image
+    $allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/tiff'];
+    $detectedMime = mime_content_type($_FILES["image"]["tmp_name"]);
+    if (!in_array($detectedMime, $allowedMimes)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid file type.']);
+        exit;
+    }
+
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetDir . $fileName)) {
         if (defined('WATERMARK_ENABLED') && WATERMARK_ENABLED) {
             $wmText = defined('WATERMARK_TEXT') ? WATERMARK_TEXT : '© FW';
