@@ -1,0 +1,5 @@
+# Block direct browser access to sensitive files
+<FilesMatch "^(config\.php|db_connect\.php)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
