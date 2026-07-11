@@ -660,15 +660,49 @@ if ($action === 'submit_selection') {
     $clientName   = $info['username'] ?? 'Unknown';
     $selectedCount = (int)($info['selected_count'] ?? 0);
 
-    $to      = 'you@example.com';
+    // List of flagged photos (with who flagged them, if several sub-users)
+    $listStmt = $pdo->prepare("
+        SELECT ci.file_name,
+               GROUP_CONCAT(DISTINCT ii.sub_user_name ORDER BY ii.sub_user_name SEPARATOR ', ') AS flagged_by
+        FROM client_images ci
+        JOIN image_interactions ii ON ii.image_id = ci.id AND ii.is_selected = 1
+        WHERE ci.user_id = ?
+        GROUP BY ci.id, ci.file_name
+        ORDER BY ci.file_name ASC
+    ");
+    $listStmt->execute([$currentUser]);
+    $selectedFiles = $listStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $subUsers = [];
+    foreach ($selectedFiles as $f) {
+        foreach (explode(', ', $f['flagged_by']) as $s) { $subUsers[$s] = true; }
+    }
+    $showSubUsers = count($subUsers) > 1;
+
+    $fileList = '';
+    foreach ($selectedFiles as $i => $f) {
+        $fileList .= ($i + 1) . '. ' . $f['file_name']
+                   . ($showSubUsers ? ' (' . $f['flagged_by'] . ')' : '')
+                   . "\n";
+    }
+    if ($fileList === '') $fileList = "(no photos flagged)\n";
+
+    $host     = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $adminUrl = 'https://' . $host . rtrim(dirname($_SERVER['PHP_SELF'] ?? '/'), '/\\') . '/admin.php';
+
+    $to      = defined('NOTIFY_EMAIL') ? NOTIFY_EMAIL : null;
     $subject = "Photo Selection submitted: {$clientName}";
     $body    = "Client \"{$clientName}\" has submitted their photo selection.\n\n"
              . "Selected photos: {$selectedCount}\n"
              . "Submitted at: {$submittedAt}\n\n"
-             . "View in admin panel: https://example.com/photo-tool/admin.php";
-    $headers = "From: noreply@example.com\r\nContent-Type: text/plain; charset=UTF-8";
+             . "Selected files:\n{$fileList}\n"
+             . "View in admin panel: {$adminUrl}";
+    $from    = defined('MAIL_FROM') ? MAIL_FROM : 'noreply@' . preg_replace('/^www\./', '', $host);
+    $headers = "From: {$from}\r\nContent-Type: text/plain; charset=UTF-8";
 
-    @mail($to, $subject, $body, $headers);
+    if ($to) {
+        @mail($to, $subject, $body, $headers);
+    }
 
     echo json_encode(['status' => 'success', 'submitted_at' => $submittedAt]);
     exit;

@@ -13,6 +13,9 @@ define('DB_PASS', 'your_database_password');
 define('BRAND_NAME',     'My Photography');   // Full studio name
 define('BRAND_INITIALS', 'MP');               // Short initials shown on login screen
 
+// 3. Notifications — where the "client submitted their selection" email goes
+define('NOTIFY_EMAIL', 'you@example.com');
+
 // 3. Watermarking (optional)
 //    WARNING: watermark is burned permanently into uploaded images — cannot be undone.
 //    Requires PHP GD extension (enabled on most hosts by default).
